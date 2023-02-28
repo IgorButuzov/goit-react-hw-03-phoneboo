@@ -15,6 +15,25 @@ class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const contactList = localStorage.getItem('contactList');
+    const parsedContacts = JSON.parse(contactList);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts})
+    }
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contactList', JSON.stringify(this.state.contacts))
+    }
+  }
+  
+  // componentWillUnmount() {
+  //   console.log('componentWillUnmount');
+  // }
+
   handleChange = event => {
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value });
